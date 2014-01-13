@@ -1,0 +1,26 @@
+{
+  "name": "travis-freeswitch",
+  "version": "0.1.0",
+  "description": "FreeSwitch for Travis tests",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --compilers coffee.md:coffee-script --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shimaore/travis-freeswitch.git"
+  },
+  "keywords": [
+    "FreeSwitch",
+    "travis"
+  ],
+  "author": "Stéphane Alnet <stephane@shimaore.net> (http://shimaore.net/)",
+  "license": "unlicense",
+  "bugs": {
+    "url": "https://github.com/shimaore/travis-freeswitch/issues"
+  },
+  "homepage": "https://github.com/shimaore/travis-freeswitch"
+}
