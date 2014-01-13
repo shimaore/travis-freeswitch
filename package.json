@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prepublish": "coffee -c -o . index.coffee.md",
+    "preinstall": "sudo ./install.sh",
     "test": "mocha --compilers coffee.md:coffee-script --reporter spec"
   },
   "repository": {
