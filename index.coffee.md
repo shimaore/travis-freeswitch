@@ -67,10 +67,14 @@
         # if code isnt 0
         process.stdout.write c.stdout.output
         process.stderr.write c.stderr.output
+        c = null
+
+Clean-up the directories when the main Node.js process exits.
 
       process.on 'exit', ->
         remove_dir dir
-        c.kill 'SIGKILL'
-        c = null
+        if c?
+          c.kill 'SIGKILL'
+          c = null
 
       return c
