@@ -8,4 +8,11 @@
         it 'and be a function', ->
           freeswitch.start.should.be.a.Function
         it 'should return properly', ->
-          freeswitch.start '../test/freeswitch.xml'
+          service = freeswitch.start '../test/freeswitch.xml'
+          service.should.have.property 'kill'
+          service.kill.should.be.a.Function
+          service.kill()
+
+        # it 'should create a FreeSwitch process', (done) ->
+        # it 'should kill the FreeSwitch process', (done) ->
+        #  service.
