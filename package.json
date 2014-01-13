@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "prepublish": "coffee -c -o . index.coffee.md",
     "test": "mocha --compilers coffee.md:coffee-script --reporter spec"
   },
   "repository": {
@@ -22,5 +23,10 @@
   "bugs": {
     "url": "https://github.com/shimaore/travis-freeswitch/issues"
   },
-  "homepage": "https://github.com/shimaore/travis-freeswitch"
+  "homepage": "https://github.com/shimaore/travis-freeswitch",
+  "devDependencies": {
+    "should": "~2.1.1",
+    "mocha": "~1.17.0",
+    "coffee-script": "~1.6.3"
+  }
 }
