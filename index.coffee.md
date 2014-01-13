@@ -19,11 +19,16 @@
       else
         fs.unlinkSync name
 
+## Create one subdirectory per sub-process.
+
+    serial = 0
 
     exports.start = (cfgname,dir) ->
+      serial += 1
+
       if typeof dir is 'function'
         [dir,cb] = [null,dir]
-      dir ?= path.join process.cwd(), "tmp-#{process.pid}"
+      dir ?= path.join process.cwd(), "tmp-#{process.pid}-#{serial}"
 
       fs.mkdirSync dir
 
