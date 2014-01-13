@@ -53,20 +53,21 @@
       c.on 'error', (err) ->
         console.log "FreeSwitch startup failed: #{err}"
 
-      log = (s) ->
+      log = (s,d) ->
         s.resume()
-        s.output = new Buffer 0
+        d.output = new Buffer 0
         s.on 'data', (data) ->
-          s.output = Buffer.concat [s.output, data]
+          d.output = Buffer.concat [d.output, data]
 
-      log c.stdout
-      log c.stderr
+      out = err = {}
+      log c.stdout, out
+      log c.stderr, err
 
       c.on 'exit', (code,signal) ->
         console.log "FreeSwitch stopped: code=#{code} signal=#{signal}"
         # if code isnt 0
-        process.stdout.write c.stdout.output
-        process.stderr.write c.stderr.output
+        process.stdout.write out.output
+        process.stderr.write err.output
         c = null
 
 Clean-up the directories when the main Node.js process exits.
