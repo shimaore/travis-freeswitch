@@ -8,6 +8,12 @@ Add as a development dependency
 
     npm --save-dev install travis-freeswitch
 
+Add it in your .travis.yml
+--------------------------
+
+    before_script:
+      - sudo ./node_modules/travis-freeswitch/install.sh
+
 In your test code
 -----------------
 
