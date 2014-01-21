@@ -23,12 +23,11 @@
 
     serial = 0
 
-    exports.start = (cfgname,dir) ->
+    exports.start = (cfgname,dir,stdio) ->
       serial += 1
 
-      if typeof dir is 'function'
-        [dir,cb] = [null,dir]
       dir ?= path.join process.cwd(), "tmp-#{process.pid}-#{serial}"
+      stdio ?= 'ignore'
 
       fs.mkdirSync dir
 
@@ -48,26 +47,13 @@
         '-temp', dir
         '-mod', '/usr/lib/freeswitch/mod'
         '-cfgname', cfgname
-      ], stdio: 'pipe'
+      ], stdio: stdio
 
       c.on 'error', (err) ->
         console.log "FreeSwitch startup failed: #{err}"
 
-      log = (s,d) ->
-        s.resume()
-        d.output = new Buffer 0
-        s.on 'data', (data) ->
-          d.output = Buffer.concat [d.output, data]
-
-      out = err = {}
-      log c.stdout, out
-      log c.stderr, err
-
       c.on 'exit', (code,signal) ->
         console.log "FreeSwitch stopped: code=#{code} signal=#{signal}"
-        # if code isnt 0
-        process.stdout.write out.output
-        process.stderr.write err.output
         c = null
 
 Clean-up the directories when the main Node.js process exits.
