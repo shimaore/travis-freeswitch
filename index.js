@@ -29,36 +29,24 @@
 
   serial = 0;
 
-  exports.start = function(cfgname, dir) {
-    var c, cb, err, log, out, _ref;
+  exports.start = function(cfgname, dir, stdio) {
+    var c;
     serial += 1;
-    if (typeof dir === 'function') {
-      _ref = [null, dir], dir = _ref[0], cb = _ref[1];
-    }
     if (dir == null) {
       dir = path.join(process.cwd(), "tmp-" + process.pid + "-" + serial);
     }
+    if (stdio == null) {
+      stdio = 'ignore';
+    }
     fs.mkdirSync(dir);
     c = child_process.spawn('freeswitch', ['-nf', '-nosql', '-nonat', '-nonatmap', '-nocal', '-nort', '-base', dir, '-conf', dir, '-log', dir, '-run', dir, '-db', dir, '-scripts', dir, '-temp', dir, '-mod', '/usr/lib/freeswitch/mod', '-cfgname', cfgname], {
-      stdio: 'pipe'
+      stdio: stdio
     });
     c.on('error', function(err) {
       return console.log("FreeSwitch startup failed: " + err);
     });
-    log = function(s, d) {
-      s.resume();
-      d.output = new Buffer(0);
-      return s.on('data', function(data) {
-        return d.output = Buffer.concat([d.output, data]);
-      });
-    };
-    out = err = {};
-    log(c.stdout, out);
-    log(c.stderr, err);
     c.on('exit', function(code, signal) {
       console.log("FreeSwitch stopped: code=" + code + " signal=" + signal);
-      process.stdout.write(out.output);
-      process.stderr.write(err.output);
       return c = null;
     });
     process.on('exit', function() {
